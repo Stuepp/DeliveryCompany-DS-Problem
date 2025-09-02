@@ -19,7 +19,7 @@ Uma empresa de food delivery busca extrair insights valiosos de seus dados de se
 
   The cleaninf of data then was sattled like the following:
 
-  ```
+  ```python
   # importando banco de dados  - dataframe
 df = pd.read_csv('../train.csv')
 
