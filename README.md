@@ -65,13 +65,44 @@ The following tools and libraries were used in the construction of this project:
 
 ## 🔬 Methodology and Challenges
 
+(EN)
+
+The project followed a clear pipeline to demonstrate the practical application of several key tools:
+   1. Data Ingestion and Exploration: The process began with an initial analysis of the dataset to identify key variables and their corresponding data types.
+   2. Data Cleaning and Transformation (ETL):
+      - Leveraging Pandas, the data was cleaned by handling null values (NaN), casting data types to their appropriate format (e.g., Order_Date to datetime), and trimming extraneous whitespace from string columns.
+      - New features were engineered, most notably the calculation of the delivery distance from the restaurant's coordinates.
+   4. Dashboard Development with Streamlit:
+      - The dashboard's layout was designed with a dedicated sidebar for user controls and a primary content area for displaying metrics and visualizations.
+      - Interactive filters were implemented to dynamically update all dashboard elements in real-time, showcasing a core capability of Streamlit.
+   6. Visualization Design:
+      - A suite of bar charts, line graphs, and interactive maps was developed using Plotly and Folium, powered by dataframes filtered on the fly with Pandas.
+
+**Key Challenge:** A significant challenge was to efficiently compute the haversine distance for every order in the dataset. A naive, row-by-row loop implementation proved to be a performance bottleneck. This was resolved by using the Pandas .apply() method, which vectorized the calculation and led to a dramatic increase in performance.
+
+(PT-BR)
+
+O projeto foi estruturado seguindo um pipeline claro, onde demonstro o uso prático das ferramentas:
+
+1.  **Coleta e Entendimento dos Dados:** Análise inicial do dataset para identificar as variáveis mais relevantes e os tipos de dados.
+2.  **Limpeza e Transformação (ETL):**
+    * Utilizando **Pandas**, realizei a limpeza dos dados, tratando valores ausentes (`NaN`), convertendo tipos de dados (como `Order_Date` para datetime) e removendo espaços em branco de colunas de texto.
+    * Criei novas colunas (feature engineering), como o cálculo da distância entre restaurante e entrega.
+3.  **Desenvolvimento do Dashboard com Streamlit:**
+    * Estruturei o layout com uma barra lateral para filtros e uma área principal para exibir os gráficos e métricas.
+    * Implementei filtros interativos que atualizam dinamicamente todos os componentes do dashboard, uma funcionalidade central do **Streamlit**.
+4.  **Criação das Visualizações:**
+    * Desenvolvi gráficos de barras, linhas e mapas com **Plotly** e **Folium**, conectando-os aos dataframes filtrados pelo **Pandas**.
+
+**Principal Desafio:** Um dos desafios foi otimizar o cálculo da distância `haversine` em todo o dataset. A aplicação ingênua com um loop seria muito lenta. A solução foi usar o método `.apply()` do **Pandas**, que vetoriza a operação e melhora drasticamente a performance.
+
 ### 1. Cleaning the data
 
   The first stage of this project was to understand what data was inside the dataset, its types, how could be transformed and cleaned.
   For example, it was noticed how some columns were obj and should be strings or ints, floats..
   Also some columns, had empty spaces at the end of theirs fields, like the "Road_traffic_density" column.
 
-  The cleaninf of data then was sattled like the following:
+  The cleaning of data then was sattled like the following:
 
   ```python
   # importando banco de dados  - dataframe
