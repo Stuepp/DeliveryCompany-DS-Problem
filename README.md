@@ -5,11 +5,22 @@
 
 ---
 
+##  Overview 📝
+
+Este projeto transforma um conjunto de dados brutos de uma empresa de delivery em um painel de controle interativo.
+O objetivo é fornecer insights acionáveis para a tomada de decisão estratégica, permitindo que as áreas de negócio e operações visualizem métricas chave de forma clara e dinâmica.
+
+Este dashboard foi construído como uma demonstração prática da minha capacidade de ponta a ponta em projetos de dados: desde a limpeza e manipulação dos dados até a criação de uma ferramenta de visualização funcional e intuitiva.
+
 Dataset: https://www.kaggle.com/datasets/gauravmalik26/food-delivery-dataset?select=train.csv
 
 ---
 
 ## 🚀 Interactive Dashboard
+
+O dashboard está disponível para interação online. Explore os dados e filtros para descobrir insights!
+
+**➡️ [Acessar o Dashboard Interativo](https://seu-link-para-o-streamlit-cloud.streamlit.app/)**
 
 
 ---
