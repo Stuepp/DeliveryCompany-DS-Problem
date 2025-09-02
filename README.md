@@ -3,18 +3,18 @@
 ![Screenchsot of the dashboard showing graphs through a company by a management pov](figs/Screenshot_18.png)
 ![Screenchsot of the dashboard showing grapsh through a restaurant view](figs/Screenshot_1.png)
 
+---
 
 Dataset: https://www.kaggle.com/datasets/gauravmalik26/food-delivery-dataset?select=train.csv
 
-How to install?
-1. Download the code
-2. (Optinal but recommended)
-    1. Create a virtual env - `python -m venv /caminho/para/novo/ambiente/virtual` | `python -m venv /path/to/new/virtual/environment`
-    2. Run virtual env - `venv_name/Scripts/Activate.ps1` | `activate.fish` | `activate.bat` | `activate`
-3. Install requirements - `pip install -r requirements.txt`
-4. Run the code (the dashboard) - `streamlit run projeto.py`
+---
 
-## The Problem:
+## 🚀 Interactive Dashboard
+
+
+---
+
+## 🎯 Business Context (The Challenge)
 (EN)
 
 A food delivery company is looking to unlock insights from its service data. Your challenge is to take the raw dataset and transform it into a powerful, intuitive dashboard. This tool will be crucial for visualizing performance and guiding the company's strategic decisions.
@@ -23,9 +23,29 @@ A food delivery company is looking to unlock insights from its service data. You
 
 Uma empresa de food delivery busca extrair insights valiosos de seus dados de serviço. Seu desafio é transformar o conjunto de dados brutos em um dashboard poderoso e intuitivo. Esta ferramenta será crucial para visualizar a performance e orientar as decisões estratégicas da empresa.
 
-# Project Stages
+---
 
-## 1. Cleaning the data
+## 🛠️ Tools and Technologies
+
+The following tools and libraries were used in the construction of this project:
+
+* **Language:** Python 3.13.2
+* **Data Manipulation and Analysis:**
+    * **Pandas:** For structuring, cleaning and efficient manipulation of data.
+    * **NumPy:** For numerical calculations and optimization of operations on arrays.
+* **Visualização de Dados:**
+    * **Plotly Express:** For creating interactive and customizable graphics.
+    * **Folium:** For generating interactive geographic maps.
+* **Dashboard development:**
+    * **Streamlit:** For building and rapid prototyping of interactive web dashboard.
+* **Geographic Calculations:**
+    * **Haversine:** To calculate the geodetic distance between the coordinates of the restaurant and the delivery location.
+
+---
+
+## 🔬 Methodology and Challenges
+
+### 1. Cleaning the data
 
   The first stage of this project was to understand what data was inside the dataset, its types, how could be transformed and cleaned.
   For example, it was noticed how some columns were obj and should be strings or ints, floats..
@@ -72,18 +92,24 @@ for c in cols_to_datetime:
     df1[c] = pd.to_datetime(df1[c], format='%d-%m-%Y')
   ```
 
-## 2. Understand what the company wants to see and other views
+### 2. Understand what the company wants to see and other views
 
-## 3. What can be seen with this dataset
+### 3. What can be seen with this dataset
 
-## 4. The Dashboard
+### 4. The Dashboard
 
-## Conclusion
+### Conclusion
 
-
-
-
-👨‍💻 Stuepp
+---
+## ⚙️ How to run the project
+1. Download the code
+2. (Optional but recommended)
+    1. Create a virtual env - `python -m venv /caminho/para/novo/ambiente/virtual` | `python -m venv /path/to/new/virtual/environment`
+    2. Run virtual env - `venv_name/Scripts/Activate.ps1` | `activate.fish` | `activate.bat` | `activate`
+3. Install requirements - `pip install -r requirements.txt`
+4. Run the code (the dashboard) - `streamlit run projeto.py`
+---
+# 👨‍💻 Stuepp
 
 LinkedIn: [https://www.linkedin.com/in/arthur-henrique-cavalcanti/](https://www.linkedin.com/in/arthur-henrique-cavalcanti/)
 
