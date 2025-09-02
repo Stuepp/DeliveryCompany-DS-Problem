@@ -73,21 +73,44 @@ data_slider = st.sidebar.slider(
     format='DD-MM-YYYY'
 )
 
+traffic_options = st.sidebar.multiselect(
+    'Quais as condições do trânsito',
+    ['Low', 'Medium', 'High', 'Jam'],
+    default=['Low', 'Medium', 'High', 'Jam']
+)
+
+# makes some operarions stop working... -> it says cuz of type, but its believed to be cuz of null resultsx
+#city_options = st.sidebar.multiselect(
+#    'Which cities',
+#    ['Metropolitian', 'Urban', 'Semi-Urban'],
+#    default=['Metropolitian', 'Urban', 'Semi-Urban']
+#)
+
+selected_rows = df1['Order_Date'] < data_slider
+df1 = df1.loc[selected_rows, :]
+
+selected_rows = df1['Road_traffic_density'].isin(traffic_options)
+df1 = df1.loc[selected_rows, :]
+
+#selected_rows = df1['City'].isin(city_options)
+#df1 = df1.loc[selected_rows, :]
+
+
 #st.header(data_slider)
 
 # barra lateral - filtros de data
 
 # layout
 
-tab1, tab2, tab3 = st.tabs(['Visão da Empresa','Visão dos Restaurantes','Visão dos Entregadores'])
+tab1, tab2, tab3 = st.tabs(['Company Vision','Restaurant View',"Deliverers' View"])
 
 with tab1:
-    st.markdown('# Visão da Empresa')
+    st.markdown('# Company Vision')
 
     # Mapa mostrando a posição dos restaurnates e dos locais de entrega dos pedidos
     with st.container():
-        st.markdown('# Mapa do País')
-        st.markdown('## Restaurante x Entrega')
+        st.markdown('# Country Map')
+        st.markdown('## Restaurant x Delivery')
         df_aux = (
             df1.loc[
             :, ['City','Road_traffic_density',
@@ -128,7 +151,7 @@ with tab1:
         folium_static(map, width=1024, height=600)
 
     with st.container():
-        tab1_1, tab1_2 = st.tabs(['Visão Gerencial', 'Visão Tática'])
+        tab1_1, tab1_2 = st.tabs(['Management Vision', 'Tactical Vision'])
 
         with tab1_1:
             with st.container():
@@ -137,7 +160,7 @@ with tab1:
                 with col1:
                     # Distribuição dos pedidos por cidade
                     # Total x Crescimmento | Barra x Linha
-                    st.markdown('### Volume de pedidos por cidade')
+                    st.markdown('### Order volume by city')
                     with st.container():
                         # Total
                         st.markdown('#### Total')
@@ -150,7 +173,7 @@ with tab1:
                         fig = px.bar(df_aux, x='City', y='ID', labels={'ID':"Num of Orders"})
                         st.plotly_chart(fig, use_container=True)
                     with st.container():
-                        st.markdown('### Crescimento semanal')
+                        st.markdown('### Weekly growth')
 
                         df1['week_of_year'] = df1['Order_Date'].dt.strftime('%U')                      
                         df_aux = (df1.loc[
@@ -165,7 +188,7 @@ with tab1:
                     pass
         with tab1_2:
             with st.container():
-                st.markdown('# Pedidos por semana')
+                st.markdown('# Orders per week')
 
                 df1['week_of_year'] = df1['Order_Date'].dt.strftime('%U')
                 df_aux = df1.loc[:, ['ID','week_of_year']].groupby('week_of_year').count().reset_index()
@@ -173,7 +196,7 @@ with tab1:
                 fig = px.line(df_aux, x='week_of_year', y='ID', labels={'ID':'Num of Orders', 'week_of_year':'Week'})
                 st.plotly_chart(fig, use_container=True)
 
-                st.markdown('# Pedidos por entregador por semana')
+                st.markdown('# Orders per delivery person per week')
 
                 df_aux1 = df1.loc[:, ['ID', 'week_of_year']].groupby('week_of_year').count().reset_index()
                 df_aux2 = df1.loc[:, ['Delivery_person_ID', 'week_of_year']].groupby('week_of_year').nunique().reset_index()
@@ -186,15 +209,15 @@ with tab1:
 
 with tab2:
     with st.container():
-        st.markdown('# Visão dos Restaurantes')
+        st.markdown('# Restaurant View')
         col1, col2, col3, col4, col5, col6 = st.columns(6, gap='large')
 
         with col1:
-            st.markdown('### Entregadores únicos')
+            st.markdown('### Unique couriers')
             delivery_unique = len(df1.loc[:, 'Delivery_person_ID'].unique())
-            col1.metric('Entregadores únicos', delivery_unique)
+            col1.metric('Unique couriers', delivery_unique)
         with col2:
-            st.markdown('### Distância média')
+            st.markdown('### Average distance')
 
             cols = ['Delivery_location_latitude','Delivery_location_longitude',
                    'Restaurant_latitude', 'Restaurant_longitude']
@@ -206,9 +229,9 @@ with tab2:
                 ), axis=1
             )
             avg_distance = np.round(df1['distance'].mean(), 2)
-            col2.metric('Mean Distance', avg_distance)
+            col2.metric('Mean distance', avg_distance)
         with col3:
-            st.markdown('### Tempo médio c/ Festival')
+            st.markdown('### Average time with Festival')
 
             df_aux = (
                 df1.loc[:, ['Time_taken(min)','Festival']]
@@ -219,10 +242,10 @@ with tab2:
             df_aux = df_aux.reset_index()
             df_aux = np.round(df_aux.loc[df_aux['Festival'] == 'Yes', 'avg_time'], 2)
 
-            col3.metric('Tempo médio c/ Festival', df_aux)
+            col3.metric('Average time with Festival', df_aux)
 
         with col4:
-            st.markdown('### O desvio padrão de Entrega médio c/ Festival')
+            st.markdown('### The Standard Deviation of Average Delivery with Festival')
 
             df_aux = (
                 df1.loc[:, ['Time_taken(min)','Festival']]
@@ -233,9 +256,9 @@ with tab2:
             df_aux = df_aux.reset_index()
             df_aux = np.round(df_aux.loc[df_aux['Festival'] == 'Yes', 'std_time'], 2)
 
-            col4.metric('STD da Entrega c/ Festival', df_aux)
+            col4.metric('Delivery STD with Festival', df_aux)
         with col5:
-            st.markdown('### Tempo médio s/ Festival')
+            st.markdown('### Average time without Festival')
 
             df_aux = (
                 df1.loc[:, ['Time_taken(min)','Festival']]
@@ -246,9 +269,9 @@ with tab2:
             df_aux = df_aux.reset_index()
             df_aux = np.round( df_aux.loc[df_aux['Festival'] == 'No', 'avg_time'], 2 )
 
-            col5.metric('Tempo médio s/ Festival', df_aux)
+            col5.metric('Average time without Festival', df_aux)
         with col6:
-            st.markdown('### STD da Entrega s/ Festival')
+            st.markdown('### Delivery STD without Festival')
 
             df_aux = (
                 df1.loc[:, ['Time_taken(min)','Festival']]
@@ -259,14 +282,14 @@ with tab2:
             df_aux = df_aux.reset_index()
             df_aux = np.round( df_aux.loc[df_aux['Festival'] == 'No', 'std_time'], 2 )
 
-            col6.metric('STD da Entrega s/ Festival', df_aux)
+            col6.metric('Delivery STD without Festival', df_aux)
 
     with st.container():
         st.markdown("""---""")
         col1, col2 = st.columns(2)
 
         with col1:
-            st.markdown('### Tempo Médio de entrega por cidade')
+            st.markdown('### Average delivery time by city')
             df_aux = (
                 df1.loc[:, ['City','Time_taken(min)']]
                 .groupby('City')
@@ -289,7 +312,7 @@ with tab2:
 
             st.plotly_chart(fig)
         with col2:
-            st.markdown('### Distribuição da Distância')
+            st.markdown('### Distance Distribution')
             df_aux = (
                 df1.loc[:, ['City', 'Time_taken(min)', 'Type_of_order']]
                 .groupby(['City', 'Type_of_order'])
@@ -305,7 +328,7 @@ with tab2:
 
     with st.container():
         st.markdown("""---""")
-        st.markdown('# Distribuição do Tempo')
+        st.markdown('# Time Distribution')
 
         col1, col2 = st.columns(2)
         with col1:
@@ -350,34 +373,34 @@ with tab2:
 
 with tab3:
     with st.container():
-        st.markdown('# Visão dos Entregadores')
+        st.markdown("# Deliverers' View")
 
-        st.markdown('# Métricas Gerais')
+        st.markdown('# General Metrics')
         col1, col2, col3, col4 = st.columns(4, gap='large')
         with col1:
             #st.title('Maior idade')
             maior_idade = df1.loc[:, 'Delivery_person_Age'].max()
-            col1.metric(label='Maior idade:', value=maior_idade)
+            col1.metric(label='Older delivery man:', value=maior_idade)
         with col2:
             #st.title('Menor idade')
             menor_idade = df1.loc[:,'Delivery_person_Age'].min()
-            col2.metric(label='Menor idade:', value=menor_idade)
+            col2.metric(label='Youngest delivery man:', value=menor_idade)
         with col3:
             #st.title('Melhor condição de veículos')
             melhor_condicao_veiculo = df1.loc[:, 'Vehicle_condition'].max()
-            col3.metric(label='Melhor condição', value=melhor_condicao_veiculo)
+            col3.metric(label='Best condition', value=melhor_condicao_veiculo)
         with col4:
             #st.title('Pior condição de veículos')
             pior_condicao_veiculo = df1.loc[:, 'Vehicle_condition'].min()
-            col4.metric(label='Pior condição', value=pior_condicao_veiculo)
+            col4.metric(label='Worst condition', value=pior_condicao_veiculo)
 
     with st.container():
         st.markdown("""---""")
-        st.markdown('# Avaliações')
+        st.markdown('# Reviews')
 
         col1, col2 = st.columns(2)
         with col1:
-            st.subheader('Avaliações medias por entregador')
+            st.subheader('Average ratings per delivery person')
             df_avg_ratings_per_deliver = (
                 df1.loc[:, ['Delivery_person_Ratings', 'Delivery_person_ID']]
                 .groupby('Delivery_person_ID')
@@ -386,7 +409,7 @@ with tab3:
             )
             st.dataframe(df_avg_ratings_per_deliver)
         with col2:
-            st.subheader('Avaliação média por trânsito')
+            st.subheader('Average rating per transit')
             df_avg_rating_by_traffic = (
                 df1.loc[:, ['Delivery_person_Ratings','Road_traffic_density']]
                 .groupby('Road_traffic_density')
@@ -394,7 +417,7 @@ with tab3:
             )
             st.dataframe(df_avg_rating_by_traffic)
             
-            st.subheader('Avaliação por clima')
+            st.subheader('Assessment by weather')
             df_avg_std_rating_by_weather = (
                 df1.loc[:, ['Delivery_person_Ratings', 'Weatherconditions']]
                 .groupby('Weatherconditions')
@@ -405,12 +428,12 @@ with tab3:
 
     with st.container():
         st.markdown("""---""")
-        st.title('Velocidade de entrega')
+        st.title('Delivery speed')
         
         col1, col2 = st.columns(2)
 
         with col1:
-            st.subheader('Top entregadores mais rápidos')
+            st.subheader('Top fastest delivery people')
             df2 = (
                 df1.loc[:, ['Delivery_person_ID', 'City', 'Time_taken(min)']]
                 .groupby(['City','Delivery_person_ID'])
@@ -428,7 +451,7 @@ with tab3:
             st.dataframe(df_result)
             
         with col2:
-            st.subheader('Top entregadores mais lentos')
+            st.subheader('Top slowest delivery people')
             df2 = (
                 df1.loc[:, ['Delivery_person_ID', 'City', 'Time_taken(min)']]
                 .groupby(['City','Delivery_person_ID'])
