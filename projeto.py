@@ -12,7 +12,7 @@ import plotly.graph_objects as go
 
 
 # importando banco de dados  - dataframe
-df = pd.read_csv('../train.csv')
+df = pd.read_csv('train.csv')
 
 df1 = df.copy()
 
