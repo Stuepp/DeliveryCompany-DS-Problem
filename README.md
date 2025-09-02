@@ -21,7 +21,7 @@ Dataset: https://www.kaggle.com/datasets/gauravmalik26/food-delivery-dataset?sel
 The dashboard is available for online interaction.
 Explore the data and filters to discover insights!
 
-**➡️ [Access the Interactive Dashboard]([https://seu-link-para-o-streamlit-cloud.streamlit.app/](https://deliverycompany-ds-problem-mwf7wfylhyyjrd8ytuvwdu.streamlit.app/))**
+**➡️ Access the Interactive Dashboard ➡️ [https://deliverycompany-ds-problem-mwf7wfylhyyjrd8ytuvwdu.streamlit.app/](https://deliverycompany-ds-problem-mwf7wfylhyyjrd8ytuvwdu.streamlit.app/)**
 
 
 ---
