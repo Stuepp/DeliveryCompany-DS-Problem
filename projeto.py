@@ -150,6 +150,25 @@ with tab1:
             ).add_to(map)
         folium_static(map, width=1024, height=600)
 
+        st.markdown('## The average distance to restaurants and delivery locations')
+        cols = ['Restaurant_latitude', 'Restaurant_longitude', 
+            'Delivery_location_latitude', 'Delivery_location_longitude']
+
+        # Supondo que 'df1' é seu DataFrame principal
+        # O cálculo da distância deve ser feito em 'df1', não em 'df_aux'
+        df1['distance'] = df1.loc[:, cols].apply(
+            lambda x: haversine(
+                (x['Restaurant_latitude'], x['Restaurant_longitude']),
+                (x['Delivery_location_latitude'], x['Delivery_location_longitude'])
+            ), axis=1
+        )
+
+        # Calcula a média da nova coluna em 'df1'
+        avg_distance = df1['distance'].mean()
+
+        # Exibe a média formatada como uma métrica
+        st.metric(label="Avarange distance (KM)", value=f"{avg_distance:.2f}")
+
     with st.container():
         tab1_1, tab1_2 = st.tabs(['Management Vision', 'Tactical Vision'])
 
@@ -185,7 +204,32 @@ with tab1:
                         fig = px.line(df_aux, x="week_of_year", y="ID", color='City', labels={'ID':'Num of Orders'})
                         st.plotly_chart(fig, use_container=True)
                 with col2:
-                    pass
+                    with st.container():
+                        st.markdown('### Quantity of orders by day')
+
+                        df_aux = df1.loc[:, ['ID','Order_Date']].groupby('Order_Date').count().reset_index()
+                        fig = px.bar(df_aux, x='Order_Date',y='ID', labels={'ID':'Num of Orders','Order_Date':'Order Date'})
+                        st.plotly_chart(fig, use_container=True)
+
+                    with st.container():
+                        st.markdown('### Quantity of Orders by Day and City')
+
+                        # Group by both 'Order_Date' and 'City'
+                        df_aux = (df1.loc[:, ['ID', 'Order_Date', 'City']]
+                                  .groupby(['Order_Date', 'City'])
+                                  .count()
+                                  .reset_index()
+                                 )
+
+                        # Create the bar chart using the 'color' parameter for the city
+                        fig = px.bar(df_aux, x='Order_Date', y='ID', 
+                                     color='City', # This creates a different color bar for each city
+                                     barmode='group', # This groups bars for the same date side-by-side
+                                     labels={'ID': 'Number of Orders', 'Order_Date': 'Order Date'},
+                                     color_discrete_sequence=px.colors.qualitative.Vivid
+                                    )
+                        st.plotly_chart(fig, use_container=True)
+
         with tab1_2:
             with st.container():
                 st.markdown('# Orders per week')
