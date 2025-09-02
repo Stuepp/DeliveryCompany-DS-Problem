@@ -2,12 +2,12 @@
 Dataset: https://www.kaggle.com/datasets/gauravmalik26/food-delivery-dataset?select=train.csv
 
 How to install?
-  1. Download the code
-  2. (Optinal but recommended)
-    a. Create a virtual env - `python -m venv /caminho/para/novo/ambiente/virtual` | `python -m venv /path/to/new/virtual/environment`
-    b. Run virtual env - `venv_name/Scripts/Activate.ps1` | `activate.fish` | `activate.bat` | `activate`
-  3. Install requirements - `pip install -r requirements.txt`
-  4. Run the code (the dashboard) - `    streamlit run projeto.py`
+1. Download the code
+2. (Optinal but recommended)
+    1. Create a virtual env - `python -m venv /caminho/para/novo/ambiente/virtual` | `python -m venv /path/to/new/virtual/environment`
+    2. Run virtual env - `venv_name/Scripts/Activate.ps1` | `activate.fish` | `activate.bat` | `activate`
+3. Install requirements - `pip install -r requirements.txt`
+4. Run the code (the dashboard) - `streamlit run projeto.py`
 
 ## The Problem:
 (EN)
