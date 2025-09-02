@@ -1,4 +1,9 @@
 # DeliveryCompany-DS-Problem
+
+![Screenchsot of the dashboard showing graphs through a company by a management pov](figs/Screenshot_18.png)
+![Screenchsot of the dashboard showing grapsh through a restaurant view](figs/Screenshot_1.png)
+
+
 Dataset: https://www.kaggle.com/datasets/gauravmalik26/food-delivery-dataset?select=train.csv
 
 How to install?
@@ -74,3 +79,12 @@ for c in cols_to_datetime:
 ## 4. The Dashboard
 
 ## Conclusion
+
+
+
+
+👨‍💻 Stuepp
+
+LinkedIn: [https://www.linkedin.com/in/arthur-henrique-cavalcanti/](https://www.linkedin.com/in/arthur-henrique-cavalcanti/)
+
+GitHub: [https://github.com/Stuepp](https://github.com/Stuepp)
