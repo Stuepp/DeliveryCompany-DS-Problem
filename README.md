@@ -153,7 +153,12 @@ for c in cols_to_datetime:
 
 ---
 ## ⚙️ How to run the project
-1. Download the code
+
+1. Clone the repository:
+```bash
+git clone [https://github.com/Stuepp/DeliveryCompany-DS-Problem.git](https://github.com/Stuepp/DeliveryCompany-DS-Problem.git)
+cd DeliveryCompany-DS-Problem
+```
 2. (Optional but recommended)
     1. Create a virtual env - `python -m venv /caminho/para/novo/ambiente/virtual` | `python -m venv /path/to/new/virtual/environment`
     2. Run virtual env - `venv_name/Scripts/Activate.ps1` | `activate.fish` | `activate.bat` | `activate`
