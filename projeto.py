@@ -16,7 +16,7 @@ st.set_page_config(layout="wide")
 st.title("Food Delivery Dataset - DS problem")
 
 # importando banco de dados  - dataframe
-df = pd.read_csv('../train.csv')
+df = pd.read_csv('train.csv')
 
 df1 = df.copy()
 
