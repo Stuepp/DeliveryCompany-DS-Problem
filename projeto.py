@@ -11,8 +11,12 @@ import numpy as np
 import plotly.graph_objects as go
 
 
+# streamlit page
+st.set_page_config(layout="wide")
+st.title("Food Delivery Dataset - DS problem")
+
 # importando banco de dados  - dataframe
-df = pd.read_csv('train.csv')
+df = pd.read_csv('../train.csv')
 
 df1 = df.copy()
 
@@ -372,7 +376,6 @@ with tab2:
 
     with st.container():
         st.markdown("""---""")
-        st.markdown('# Time Distribution')
 
         col1, col2 = st.columns(2)
         with col1:
@@ -390,14 +393,25 @@ with tab2:
 
             avg_distance = df1.loc[:, ['City', 'distance']].groupby('City').mean().reset_index()
 
-            fig = go.Figure(data=[
-                go.Pie(labels=avg_distance['City'],
-                        values=avg_distance['distance'],
-                        pull=[0,0.1,0])
-            ])
-            st.plotly_chart(fig)
+            #fig = go.Figure(data=[
+            #    go.Pie(labels=avg_distance['City'],
+            #            values=avg_distance['distance'],
+            #            pull=[0,0.1,0])
+            #])
+            
+            st.markdown('## Average distance of Restaurant to Delivery location')
+            #st.plotly_chart(fig)
+            fig = px.bar(avg_distance, 
+                 x='City', 
+                 y='distance',
+                 text='distance',  # Adiciona o valor da distância como texto na barra
+                 #title='Average distance of Restaurant to Delivery location',
+                 labels={'distance': 'Distância Média (KM)', 'City': 'Cidade'})
+            fig.update_traces(texttemplate='%{text:.2f}', textposition='outside')
+            st.plotly_chart(fig, use_container_width=True)
         
         with col2:
+            st.markdown('## Time Distribution')
             df_aux = (
                 df1.loc[:, ['City', 'Time_taken(min)','Road_traffic_density']]
                 .groupby(['City','Road_traffic_density'])
@@ -410,6 +424,7 @@ with tab2:
             fig = px.sunburst(
                 df_aux, path=['City','Road_traffic_density'], values='avg_time',
                 color='std_time', color_continuous_scale='RdBu',
+                labels={'std_time':'STD Time'},
                 color_continuous_midpoint=np.average(df_aux['std_time'])
             )
 
@@ -432,11 +447,11 @@ with tab3:
         with col3:
             #st.title('Melhor condição de veículos')
             melhor_condicao_veiculo = df1.loc[:, 'Vehicle_condition'].max()
-            col3.metric(label='Best condition', value=melhor_condicao_veiculo)
+            col3.metric(label='Best vehicle condition', value=melhor_condicao_veiculo)
         with col4:
             #st.title('Pior condição de veículos')
             pior_condicao_veiculo = df1.loc[:, 'Vehicle_condition'].min()
-            col4.metric(label='Worst condition', value=pior_condicao_veiculo)
+            col4.metric(label='Worst vehicle condition', value=pior_condicao_veiculo)
 
     with st.container():
         st.markdown("""---""")
