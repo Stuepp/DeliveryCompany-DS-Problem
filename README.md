@@ -102,13 +102,11 @@ This stage focused on understanding the dataset: what data was available, its da
    2. Experimentation in JupyterLab
       - Following the cleaning phase, this was the most critical stage. It was here that I experimented with the data to define different analytical perspectives and what insights each one should provide.
       - The analysis was structured into three main perspectives: a Company View, a Restaurant View, and a Delivery Driver View.
-   3. Creation of the Dashboard
-      - ....
-      ![Screenchsot of the dashboard showing graphs through a company by a management pov](figs/Screenshot_18.png)
-      ![Screenchsot of the dashboard showing grapsh through a restaurant view](figs/Screenshot_1.png)
-   4. Dashboard Creation
+   3. Dashboard Creation
       - Finally, the dashboard creation stage is where all the knowledge and experience built up to this point were applied.
       - The dashboard's construction was based on other dashboards found online and on previous versions I built for the different views defined earlier. The result is the final dashboard, which can be found at the link provided at the beginning of this README.
+      ![Screenchsot of the dashboard showing graphs through a company by a management pov](figs/Screenshot_18.png)
+      ![Screenchsot of the dashboard showing grapsh through a restaurant view](figs/Screenshot_1.png)
 
 
 ---
