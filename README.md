@@ -1,6 +1,9 @@
 # DeliveryCompany-DS-Problem
 
 ## Business Context (The Challenge)
+
+![Cover image to represent the food delivery company](figs/dataset-cover.jpg)
+
 (EN)
 
 A food delivery company is looking to unlock insights from its service data. Your challenge is to take the raw dataset and transform it into a powerful, intuitive dashboard. This tool will be crucial for visualizing performance and guiding the company's strategic decisions.
