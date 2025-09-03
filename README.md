@@ -63,93 +63,50 @@ The following tools and libraries were used in the construction of this project:
 
 ---
 
-## 🔬 Methodology and Challenges
+## Methodology and Challenges
 
 (EN)
 
-The project followed a clear pipeline to demonstrate the practical application of several key tools:
-   1. Data Ingestion and Exploration: The process began with an initial analysis of the dataset to identify key variables and their corresponding data types.
-   2. Data Cleaning and Transformation (ETL):
-      - Leveraging Pandas, the data was cleaned by handling null values (NaN), casting data types to their appropriate format (e.g., Order_Date to datetime), and trimming extraneous whitespace from string columns.
-      - New features were engineered, most notably the calculation of the delivery distance from the restaurant's coordinates.
-   4. Dashboard Development with Streamlit:
-      - The dashboard's layout was designed with a dedicated sidebar for user controls and a primary content area for displaying metrics and visualizations.
-      - Interactive filters were implemented to dynamically update all dashboard elements in real-time, showcasing a core capability of Streamlit.
-   6. Visualization Design:
-      - A suite of bar charts, line graphs, and interactive maps was developed using Plotly and Folium, powered by dataframes filtered on the fly with Pandas.
+Exploratory Data Analysis (EDA)
 
-**Key Challenge:** A significant challenge was to efficiently compute the haversine distance for every order in the dataset. A naive, row-by-row loop implementation proved to be a performance bottleneck. This was resolved by using the Pandas .apply() method, which vectorized the calculation and led to a dramatic increase in performance.
+This stage focused on understanding the dataset: what data was available, its data types, the presence of null values, and its overall structure.
 
-(PT-BR)
+   1. Data Cleaning and Transformation | ETL
+      - In this step, the raw data was processed to create a new, clean dataset called df1.
+      - The cleaning process involved handling NaN values, stripping whitespaces from strings, and casting data types, for example, converting the Order_Date column from an object to datetime format.
+        ```python
+          # importando banco de dados  - dataframe
+        df = pd.read_csv('../train.csv')
+        df1 = df.copy()
 
-O projeto foi estruturado seguindo um pipeline claro, onde demonstro o uso prático das ferramentas:
+        # limepza do banco de dados - dataframe
+        # limpando as linhas
+        cols = df1.columns
+        cols_list = cols.tolist()
+        for c in cols_list:
+           rows = (df1[c] != 'NaN ')
+           df1 = df1.loc[rows, :].copy()
+        # removendo o espaço no final da string
+        cols_to_strip = ['Type_of_vehicle', 'Festival', 'Road_traffic_density', 'Type_of_order','Time_taken(min)']
+        for c in cols_to_strip:
+           df1[c] = df1[c].str.rstrip()
+        df1['Time_taken(min)'] = df1['Time_taken(min)'].str.strip('(min)')
+        # alterando os tipos
+        cols_to_int = ['Delivery_person_Age', 'multiple_deliveries','Time_taken(min)']
+        cols_to_float = ['Delivery_person_Ratings']
+        cols_to_datetime = ['Order_Date']
+        for c in cols_to_int:
+           df1[c] = df1[c].astype(int)
+        for c in cols_to_float:
+           df1[c] = df1[c].astype(float)
+        for c in cols_to_datetime:
+           df1[c] = pd.to_datetime(df1[c], format='%d-%m-%Y')
+        ```
+   2. Experimentation in JupyterLab
+      - Following the cleaning phase, this was the most critical stage. It was here that I experimented with the data to define different analytical perspectives and what insights each one should provide.
+      - The analysis was structured into three main perspectives: a Company View, a Restaurant View, and a Delivery Driver View.
+   3. Creation of the Dashboard
 
-1.  **Coleta e Entendimento dos Dados:** Análise inicial do dataset para identificar as variáveis mais relevantes e os tipos de dados.
-2.  **Limpeza e Transformação (ETL):**
-    * Utilizando **Pandas**, realizei a limpeza dos dados, tratando valores ausentes (`NaN`), convertendo tipos de dados (como `Order_Date` para datetime) e removendo espaços em branco de colunas de texto.
-    * Criei novas colunas (feature engineering), como o cálculo da distância entre restaurante e entrega.
-3.  **Desenvolvimento do Dashboard com Streamlit:**
-    * Estruturei o layout com uma barra lateral para filtros e uma área principal para exibir os gráficos e métricas.
-    * Implementei filtros interativos que atualizam dinamicamente todos os componentes do dashboard, uma funcionalidade central do **Streamlit**.
-4.  **Criação das Visualizações:**
-    * Desenvolvi gráficos de barras, linhas e mapas com **Plotly** e **Folium**, conectando-os aos dataframes filtrados pelo **Pandas**.
-
-**Principal Desafio:** Um dos desafios foi otimizar o cálculo da distância `haversine` em todo o dataset. A aplicação ingênua com um loop seria muito lenta. A solução foi usar o método `.apply()` do **Pandas**, que vetoriza a operação e melhora drasticamente a performance.
-
-### 1. Cleaning the data
-
-  The first stage of this project was to understand what data was inside the dataset, its types, how could be transformed and cleaned.
-  For example, it was noticed how some columns were obj and should be strings or ints, floats..
-  Also some columns, had empty spaces at the end of theirs fields, like the "Road_traffic_density" column.
-
-  The cleaning of data then was sattled like the following:
-
-  ```python
-  # importando banco de dados  - dataframe
-df = pd.read_csv('../train.csv')
-
-df1 = df.copy()
-
-
-# limepza do banco de dados - dataframe
-
-# limpando as linhas
-cols = df1.columns
-cols_list = cols.tolist()
-for c in cols_list:
-    rows = (df1[c] != 'NaN ')
-    df1 = df1.loc[rows, :].copy()
-
-# removendo o espaço no final da string
-cols_to_strip = ['Type_of_vehicle', 'Festival', 'Road_traffic_density', 'Type_of_order','Time_taken(min)']
-
-for c in cols_to_strip:
-    df1[c] = df1[c].str.rstrip()
-
-df1['Time_taken(min)'] = df1['Time_taken(min)'].str.strip('(min)')
-
-# alterando os tipos
-cols_to_int = ['Delivery_person_Age', 'multiple_deliveries','Time_taken(min)']
-cols_to_float = ['Delivery_person_Ratings']
-cols_to_datetime = ['Order_Date']
-
-for c in cols_to_int:
-    df1[c] = df1[c].astype(int)
-
-for c in cols_to_float:
-    df1[c] = df1[c].astype(float)
-
-for c in cols_to_datetime:
-    df1[c] = pd.to_datetime(df1[c], format='%d-%m-%Y')
-  ```
-
-### 2. Understand what the company wants to see and other views
-
-### 3. What can be seen with this dataset
-
-### 4. The Dashboard
-
-### Conclusion
 
 ---
 ## How to run the project
