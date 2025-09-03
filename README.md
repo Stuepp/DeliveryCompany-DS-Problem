@@ -123,6 +123,9 @@ cd DeliveryCompany-DS-Problem
 3. Install requirements - `pip install -r requirements.txt`
 4. Run the code (the dashboard) - `streamlit run projeto.py`
 ---
+
+Ps: I know it would be better to write now the code in a modular way... but for now it has to stay like this.
+
 # 👨‍💻 Stuepp
 
 LinkedIn: [https://www.linkedin.com/in/arthur-henrique-cavalcanti/](https://www.linkedin.com/in/arthur-henrique-cavalcanti/)
